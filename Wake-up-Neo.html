@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💊Follow the white rabbit🐰</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cg%3E%3Ctext x='3' y='0' font-family='monospace' font-size='5' fill='%2300ff41'%3E66%3C/text%3E%3Ctext x='3' y='8' font-family='monospace' font-size='5' fill='%2300ff41'%3E6f%3C/text%3E%3Ctext x='3' y='16' font-family='monospace' font-size='5' fill='%2300ff41'%3E6c%3C/text%3E%3Ctext x='3' y='24' font-family='monospace' font-size='5' fill='%2300ff41'%3E6c%3C/text%3E%3CanimateTransform attributeName='transform' type='translate' values='0 -40; 0 40' dur='3s' repeatCount='indefinite'/%3E%3C/g%3E%3Cg%3E%3Ctext x='10' y='0' font-family='monospace' font-size='5' fill='%2300ff41'%3E6f%3C/text%3E%3Ctext x='10' y='8' font-family='monospace' font-size='5' fill='%2300ff41'%3E77%3C/text%3E%3Ctext x='10' y='16' font-family='monospace' font-size='5' fill='%2300ff41'%3E20%3C/text%3E%3Ctext x='10' y='24' font-family='monospace' font-size='5' fill='%2300ff41'%3E74%3C/text%3E%3CanimateTransform attributeName='transform' type='translate' values='0 -40; 0 40' dur='3.5s' begin='0.5s' repeatCount='indefinite'/%3E%3C/g%3E%3Cg%3E%3Ctext x='18' y='0' font-family='monospace' font-size='5' fill='%2300ff41'%3E68%3C/text%3E%3Ctext x='18' y='8' font-family='monospace' font-size='5' fill='%2300ff41'%3E65%3C/text%3E%3Ctext x='18' y='16' font-family='monospace' font-size='5' fill='%2300ff41'%3E20%3C/text%3E%3Ctext x='18' y='24' font-family='monospace' font-size='5' fill='%2300ff41'%3E77%3C/text%3E%3CanimateTransform attributeName='transform' type='translate' values='0 -40; 0 40' dur='2.8s' begin='1s' repeatCount='indefinite'/%3E%3C/g%3E%3Cg%3E%3Ctext x='26' y='0' font-family='monospace' font-size='5' fill='%2300ff41'%3E68%3C/text%3E%3Ctext x='26' y='8' font-family='monospace' font-size='5' fill='%2300ff41'%3E69%3C/text%3E%3Ctext x='26' y='16' font-family='monospace' font-size='5' fill='%2300ff41'%3E74%3C/text%3E%3Ctext x='26' y='24' font-family='monospace' font-size='5' fill='%2300ff41'%3E65%3C/text%3E%3CanimateTransform attributeName='transform' type='translate' values='0 -40; 0 40' dur='3.2s' begin='1.5s' repeatCount='indefinite'/%3E%3C/g%3E%3C/svg%3E">
+    <style>
+        body { margin:0; padding:0; background:#000; overflow:hidden; font-family:monospace }
+        canvas { display:block; background:#000 }
+        .search-container { position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); z-index:1000; text-align:center }
+        .search-box { opacity:0; pointer-events:none; transition:opacity 1s ease-out }
+        .search-box.visible { opacity:1; pointer-events:auto }
+        #searchInput {
+            width:580px; padding:15px 70px 15px 20px; font-size:16px; background:rgba(0,0,0,0.9);
+            border:2px solid #00ff41; border-radius:24px; color:#00ff41; font-family:'Courier New',monospace; outline:none;
+            box-shadow:0 0 20px rgba(0,255,65,0.3); transition:all 0.3s;
+            caret-color: transparent;
+        }
+        #searchInput:focus { box-shadow:0 0 30px rgba(0,255,65,0.6); border-color:#00ff00 }
+        #searchInput::placeholder { color:rgba(0,255,65,0.5) }
+
+        .search-icon { position:absolute; right:10px; top:50%; transform:translateY(-50%); display:flex; align-items:center; justify-content:center }
+        .search-icon svg {
+            width:72px; height:72px; display:block;
+            filter: drop-shadow(0 0 4px #00ff41) drop-shadow(0 0 12px #00ff41);
+            opacity:0;
+            transform:scale(0.3);
+            transition: all 0.8s ease-out;
+        }
+        .search-icon.visible svg {
+            opacity:1;
+            transform:scale(1);
+            filter: drop-shadow(0 0 6px #00ff41) drop-shadow(0 0 12px #00ff41);
+        }
+
+        @media (max-width:640px){ #searchInput{width:80vw} }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-2px, 2px); }
+            20%, 40%, 60%, 80% { transform: translate(2px, -2px); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        .glitching {
+            animation: 
+                shake 0.5s linear, 
+                fadeOut 0.3s linear 0.5s forwards;
+        }
+
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+
+    <div class="search-container">
+        <form action="https://www.google.com/search" method="get" target="_blank">
+            <div class="search-box" id="searchBox">
+                <input
+                    type="text"
+                    id="searchInput"
+                    name="q"
+                    placeholder=""
+                    autocomplete="off"
+                />
+                <span class="search-icon" id="searchIcon" aria-hidden="true">
+                    <svg id="morpheusIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 642 480" role="img" aria-label="Morpheus face">
+                        <path d="M264 200 C264 120 320 80 376 80 C432 80 488 120 488 200 L488 280 C488 340 432 380 376 380 C320 380 264 340 264 280 Z" fill="#60402d" stroke="#2a2f33" stroke-width="10"/>
+                        <g fill="#0f1112">
+                            <ellipse cx="320" cy="220" rx="48" ry="28" />
+                            <ellipse cx="432" cy="220" rx="48" ry="28" />
+                            <rect x="358" y="210" width="40" height="14" rx="6" />
+                        </g>
+                        <path d="M376 248 C368 260 372 280 376 280 C380 280 384 260 376 248 Z" fill="#553324" />
+                        <line x1="340" y1="314" x2="412" y2="314" stroke="#000000" stroke-width="5" stroke-linecap="round" />
+                        <path d="M320 330 C344 348 408 348 432 330 C416 340 336 340 320 330 Z" fill="#553324" opacity="0.25" />
+                    </svg>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const baseFontSize = 16;
+        let columns = Math.floor(canvas.width / baseFontSize);
+        let drops = []; let fontSizes = [];
+        for (let x=0;x<columns;x++){ drops[x]=1; fontSizes[x]=Math.random()*8+12 }
+        window.addEventListener('resize',()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; columns=Math.floor(canvas.width/baseFontSize); drops=[]; fontSizes=[]; for(let x=0;x<columns;x++){ drops[x]=1; fontSizes[x]=Math.random()*8+12 } });
+        const chars='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const colors=['#00FF41','#008F11','#003B00','#0D0208'];
+        function draw(){ ctx.fillStyle='rgba(0,0,0,0.02)'; ctx.fillRect(0,0,canvas.width,canvas.height); for(let i=0;i<drops.length;i++){ const char=chars[Math.floor(Math.random()*chars.length)]; const colorIndex=Math.floor((drops[i]*colors.length)/canvas.height); ctx.fillStyle=colors[Math.min(colorIndex,colors.length-1)]; ctx.font=fontSizes[i]+'px monospace'; ctx.fillText(char,i*baseFontSize,drops[i]*fontSizes[i]); if(drops[i]*fontSizes[i]>canvas.height&&Math.random()>0.975) drops[i]=0; drops[i]+=0.5; }}
+        setInterval(draw,50);
+
+        // Mostrar input después de 3s
+        setTimeout(()=>{
+            document.getElementById('searchBox').classList.add('visible');
+            // Mostrar icono después de +0.8s
+            setTimeout(()=>{
+                document.getElementById('searchIcon').classList.add('visible');
+                // Iniciar escritura mensaje Morpheus después del icono
+                startMorpheusTyping();
+            },800);
+        },3000);
+
+        const morpheusMessages = [
+            "You're here because you search something.",
+            " What you search you can't explain, but you feel it.",
+            " It is this feeling that has brought you to me.",
+            " Do you know what I'm talking about?"
+        ];
+
+        function startMorpheusTyping(){
+            let idx = 0;
+            function typeMessage(){
+                if(idx >= morpheusMessages.length){
+                    startSearchTyping();
+                    return;
+                }
+                const input = document.getElementById('searchInput');
+                const text = morpheusMessages[idx];
+                let i = 0;
+                input.placeholder = '';
+
+                function typeChar(){
+                    if(i < text.length){
+                        input.placeholder += text.charAt(i);
+                        i++;
+                        const delay = Math.random()*60 + 30; // 30-90ms (más rápido)
+                        setTimeout(typeChar, delay);
+                    } else {
+                        // Tiempo en pantalla depende de longitud
+                        let holdTime = 2000 + text.length * 15; // base 2s + proporcional a largo
+                        setTimeout(()=>{
+                            input.placeholder = '';
+                            idx++;
+                            typeMessage();
+                        }, holdTime);
+                    }
+                }
+                typeChar();
+            }
+            typeMessage();
+        }
+
+        function startSearchTyping(){
+            const input = document.getElementById('searchInput');
+            const text = 'Search the Matrix...';
+            let i = 0;
+            input.placeholder = '';
+
+            function typeChar(){
+                if(i < text.length){
+                    input.placeholder += text.charAt(i);
+                    i++;
+                    const delay = Math.random()*60 + 30; // 30-90ms (más rápido)
+                    setTimeout(typeChar, delay);
+                } else {
+                    // añadir cursor bloque verde claro
+                    let showing = true;
+                    setInterval(()=>{
+                        if(showing){
+                            input.placeholder = text + ' █';
+                        } else {
+                            input.placeholder = text;
+                        }
+                        showing = !showing;
+                    },500);
+
+                    // Después de 1 segundo, activar el glitch en el ícono
+                    setTimeout(() => {
+                        const morpheusIcon = document.getElementById('morpheusIcon');
+                        if (morpheusIcon) {
+                            morpheusIcon.classList.add('glitching');
+                        }
+                    }, 1000); // 1 segundo de retraso
+                }
+            }
+            typeChar();
+        }
+
+        document.getElementById('searchInput').focus();
+    </script>
+</body>
+</html>
